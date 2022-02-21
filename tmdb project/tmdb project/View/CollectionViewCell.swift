@@ -19,6 +19,7 @@ class CollectionViewCell: UICollectionViewCell {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         return label
     }()
 
@@ -30,6 +31,7 @@ class CollectionViewCell: UICollectionViewCell {
 
     private lazy var popularityLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
         return label
     }()
 

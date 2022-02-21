@@ -28,24 +28,6 @@ struct NetworkManager {
             completion(.success(data))
         }.resume()
     }
-
-    func dataTask(url: URL, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        session.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                completion(.failure(.invalidRequest))
-                return
-            }
-
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                completion(.failure(.invalidResponse))
-                return
-            }
-
-            if let data = data {
-                completion(.success(data))
-            }
-        }.resume()
-    }
 }
 
 //MARK: Image Fetching
