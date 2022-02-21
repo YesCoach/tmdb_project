@@ -13,7 +13,7 @@ class CollectionViewCell: UICollectionViewCell {
     private lazy var thumbnailView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 20
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
@@ -24,6 +24,7 @@ class CollectionViewCell: UICollectionViewCell {
 
     private lazy var popularityIcon: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "star.fill"))
+        imageView.tintColor = .systemYellow
         return imageView
     }()
 
@@ -36,6 +37,7 @@ class CollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setUpLayout()
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -47,31 +49,38 @@ class CollectionViewCell: UICollectionViewCell {
         contentView.addSubview(popularityLabel)
 
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
-        thumbnailView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
-        thumbnailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        thumbnailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
-        thumbnailView.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: 0.8).isActive = true
+        thumbnailView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
+        thumbnailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
+        thumbnailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        thumbnailView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8).isActive = true
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: thumbnailView.bottomAnchor, constant: 16).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: thumbnailView.bottomAnchor, constant: 8).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
 
         popularityIcon.translatesAutoresizingMaskIntoConstraints = false
-        popularityIcon.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
+        popularityIcon.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4).isActive = true
+        popularityIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15).isActive = true
         popularityIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
 
         popularityLabel.translatesAutoresizingMaskIntoConstraints = false
         popularityLabel.topAnchor.constraint(equalTo: popularityIcon.topAnchor).isActive = true
-        popularityLabel.leadingAnchor.constraint(equalTo: popularityIcon.trailingAnchor).isActive = true
-        popularityLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        popularityLabel.leadingAnchor.constraint(equalTo: popularityIcon.trailingAnchor, constant: 4).isActive = true
+        popularityLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
         popularityLabel.bottomAnchor.constraint(equalTo: popularityIcon.bottomAnchor).isActive = true
     }
-    func setUpCell(thumbnail: UIImage?, title: String, popularity: Double) {
-        thumbnailView.image = thumbnail ?? nil
-        titleLabel.text = title
-        popularityLabel.text = String(popularity)
+
+    func setUpCell(movie: Movie) {
+        movie.image { image in
+            DispatchQueue.main.async {
+            self.thumbnailView.image = image
+            }
+        }
+        titleLabel.text = movie.title
+        popularityLabel.text = String(movie.voteAverage)
     }
+
     override func prepareForReuse() {
         thumbnailView.image = nil
         titleLabel.text = nil

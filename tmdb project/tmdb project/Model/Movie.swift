@@ -5,7 +5,7 @@
 //  Created by 박태현 on 2022/02/14.
 //
 
-import Foundation
+import UIKit
 
 struct Movie: Decodable {
     let id: Int
@@ -17,5 +17,14 @@ struct Movie: Decodable {
         case id, title
         case posterPath = "poster_path"
         case voteAverage = "vote_average"
+    }
+
+    func image(completion: @escaping (UIImage) -> Void) {
+        if let posterPath = posterPath {
+            let url = "https://image.tmdb.org/t/p/original" + posterPath
+            NetworkManager().downloadImage(from: url) { image in
+                completion(image)
+            }
+        }
     }
 }

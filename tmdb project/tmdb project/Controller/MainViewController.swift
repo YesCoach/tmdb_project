@@ -7,14 +7,16 @@
 
 import UIKit
 
-struct Data {
+struct MockData {
     let image: UIImage?
     let title: String
     let popularity: Double
 }
 
 class MainViewController: UIViewController {
-    let data: [Data] = [Data(image: UIImage(named: "ph1.jpg"), title: "the island kid", popularity: 9.91)]
+    let networkManager = NetworkManager()
+    var data: [Movie] = []
+    let url = TargetAPI().aa()
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
@@ -36,7 +38,22 @@ class MainViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
+        fetchData()
         // Do any additional setup after loading the view.
+    }
+    
+    func fetchData() {
+        networkManager.fetchData(url: url!) { result in
+            if case .success(let data) = result {
+                guard let movieList = try? JSONDecoder().decode(MovieList.self, from: data) else {
+                    return
+                }
+                self.data = movieList.results
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
 }
 
@@ -45,10 +62,10 @@ extension MainViewController: UICollectionViewDataSource {
         let data = data[indexPath.row]
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.cellID, for: indexPath) as? CollectionViewCell else {
             let cell = CollectionViewCell()
-            cell.setUpCell(thumbnail: data.image, title: data.title, popularity: data.popularity)
+            cell.setUpCell(movie: data)
             return cell
         }
-        cell.setUpCell(thumbnail: data.image, title: data.title, popularity: data.popularity)
+        cell.setUpCell(movie: data)
         return cell
     }
 
@@ -59,6 +76,6 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 160, height: 200)
+        return CGSize(width: 160, height: 300)
     }
 }
