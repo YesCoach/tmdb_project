@@ -28,7 +28,7 @@ enum MovieQuery {
 class TargetAPI {
     private var components = URLComponents(string: "\(TMDBAPI.now_playing.url)")
     let apiKey = URLQueryItem(name: "api_key", value: "b8f03fc5e25bdeaaa478064e15410d68")
-    let language = URLQueryItem(name: "language", value: "kr_KR")
+    let language = URLQueryItem(name: "language", value: "ko_KR")
     let page = URLQueryItem(name: "page", value: "1")
 
     func aa() -> URL? {

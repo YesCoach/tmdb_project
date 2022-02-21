@@ -47,13 +47,20 @@ struct NetworkManager {
         }.resume()
     }
 }
+
+//MARK: Image Fetching
 extension NetworkManager {
-    func downloadImage(from link: String, success block: @escaping (UIImage) -> Void) {
+    func downloadImage(from link: String, completion: @escaping (UIImage) -> Void) {
+        let cacheKey = NSString(string: link)
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+            completion(cachedImage)
+        }
+
         guard let url = URL(string: link) else { return }
-        print(url)
         URLSession.shared.dataTask(with: url) { data, _, _ in
             guard let data = data, let image = UIImage(data: data) else { return }
-            block(image)
+            ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+            completion(image)
         }.resume()
     }
 }
