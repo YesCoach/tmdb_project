@@ -39,7 +39,7 @@ extension NetworkManager {
         }
 
         guard let url = URL(string: link) else { return }
-        URLSession.shared.dataTask(with: url) { data, _, _ in
+        session.dataTask(with: url) { data, _, _ in
             guard let data = data, let image = UIImage(data: data) else { return }
             ImageCacheManager.shared.setObject(image, forKey: cacheKey)
             completion(image)

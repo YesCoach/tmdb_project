@@ -12,7 +12,8 @@ class CollectionViewCell: UICollectionViewCell {
 
     private lazy var thumbnailView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -20,6 +21,7 @@ class CollectionViewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
@@ -32,6 +34,7 @@ class CollectionViewCell: UICollectionViewCell {
     private lazy var popularityLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
@@ -63,7 +66,8 @@ class CollectionViewCell: UICollectionViewCell {
 
         popularityIcon.translatesAutoresizingMaskIntoConstraints = false
         popularityIcon.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4).isActive = true
-        popularityIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.15).isActive = true
+        popularityIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.08).isActive = true
+        popularityIcon.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.08).isActive = true
         popularityIcon.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
 
         popularityLabel.translatesAutoresizingMaskIntoConstraints = false

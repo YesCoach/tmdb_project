@@ -31,7 +31,7 @@ class TargetAPI {
     let language = URLQueryItem(name: "language", value: "ko_KR")
     let page = URLQueryItem(name: "page", value: "1")
 
-    func aa() -> URL? {
+    func targetURL() -> URL? {
         components?.queryItems = [apiKey,language,page]
         return components?.url
     }

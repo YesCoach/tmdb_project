@@ -16,12 +16,13 @@ struct MockData {
 class MainViewController: UIViewController {
     let networkManager = NetworkManager()
     var data: [Movie] = []
-    let url = TargetAPI().aa()
+    let url = TargetAPI().targetURL()
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .black
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.cellID)
+        collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionHeaderView.viewID)
         return collectionView
     }()
 
@@ -77,5 +78,16 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 160, height: 300)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionHeaderView.viewID, for: indexPath) as? CollectionHeaderView else {
+            return CollectionHeaderView()
+        }
+        return headerView
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height * 0.07)
     }
 }

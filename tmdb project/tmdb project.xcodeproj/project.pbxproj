@@ -13,6 +13,7 @@
 		8981A6E627C368BD0009882A /* TargetAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981A6E527C368BC0009882A /* TargetAPI.swift */; };
 		8981A6E827C377F80009882A /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981A6E727C377F80009882A /* NetworkError.swift */; };
 		8981A6EA27C3A31B0009882A /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981A6E927C3A3180009882A /* ImageCacheManager.swift */; };
+		8981A6EC27C3AD890009882A /* CollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981A6EB27C3AD890009882A /* CollectionHeaderView.swift */; };
 		89BDCB2B27BA448200F8161F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BDCB2A27BA448200F8161F /* AppDelegate.swift */; };
 		89BDCB2D27BA448200F8161F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BDCB2C27BA448200F8161F /* SceneDelegate.swift */; };
 		89BDCB2F27BA448200F8161F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BDCB2E27BA448200F8161F /* MainViewController.swift */; };
@@ -29,6 +30,7 @@
 		8981A6E527C368BC0009882A /* TargetAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetAPI.swift; sourceTree = "<group>"; };
 		8981A6E727C377F80009882A /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		8981A6E927C3A3180009882A /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		8981A6EB27C3AD890009882A /* CollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionHeaderView.swift; sourceTree = "<group>"; };
 		89BDCB2727BA448200F8161F /* tmdb project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tmdb project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89BDCB2A27BA448200F8161F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		89BDCB2C27BA448200F8161F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				8981A6DD27C24AED0009882A /* CollectionViewCell.swift */,
+				8981A6EB27C3AD890009882A /* CollectionHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 			files = (
 				89BDCB4227BA520800F8161F /* MovieList.swift in Sources */,
 				89BDCB2F27BA448200F8161F /* MainViewController.swift in Sources */,
+				8981A6EC27C3AD890009882A /* CollectionHeaderView.swift in Sources */,
 				8981A6EA27C3A31B0009882A /* ImageCacheManager.swift in Sources */,
 				8981A6DE27C24AED0009882A /* CollectionViewCell.swift in Sources */,
 				8981A6E427C361160009882A /* NetworkManager.swift in Sources */,
