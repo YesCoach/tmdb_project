@@ -7,8 +7,8 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
-    static let cellID = "CustomCollectionViewCellID"
+class MainCollectionViewCell: UICollectionViewCell {
+    static let cellID = "MainCollectionViewCell"
 
     private lazy var thumbnailView: UIImageView = {
         let imageView = UIImageView()

@@ -12,11 +12,13 @@ struct Movie: Decodable {
     let title: String
     let posterPath: String?
     let voteAverage: Double
+    let releaseDate: String
     
     enum CodingKeys: String, CodingKey {
         case id, title
         case posterPath = "poster_path"
         case voteAverage = "vote_average"
+        case releaseDate = "release_date"
     }
 
     func image(completion: @escaping (UIImage) -> Void) {
