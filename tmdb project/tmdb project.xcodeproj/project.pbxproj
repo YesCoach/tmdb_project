@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		895DCA5A27C6359C00790F12 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895DCA5927C6359C00790F12 /* DetailViewController.swift */; };
+		895DCA5C27C6374100790F12 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895DCA5B27C6374100790F12 /* TabBarController.swift */; };
+		895DCA5E27C6389000790F12 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895DCA5D27C6389000790F12 /* SearchViewController.swift */; };
+		895DCA6027C63A0000790F12 /* GenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895DCA5F27C63A0000790F12 /* GenreViewController.swift */; };
 		8981A6DE27C24AED0009882A /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981A6DD27C24AED0009882A /* CollectionViewCell.swift */; };
 		8981A6E027C259700009882A /* ph1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8981A6DF27C259700009882A /* ph1.jpg */; };
 		8981A6E427C361160009882A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8981A6E327C361160009882A /* NetworkManager.swift */; };
@@ -24,6 +28,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		895DCA5927C6359C00790F12 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		895DCA5B27C6374100790F12 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		895DCA5D27C6389000790F12 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		895DCA5F27C63A0000790F12 /* GenreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreViewController.swift; sourceTree = "<group>"; };
 		8981A6DD27C24AED0009882A /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		8981A6DF27C259700009882A /* ph1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ph1.jpg; sourceTree = "<group>"; };
 		8981A6E327C361160009882A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -57,6 +65,10 @@
 			isa = PBXGroup;
 			children = (
 				89BDCB2E27BA448200F8161F /* MainViewController.swift */,
+				895DCA5D27C6389000790F12 /* SearchViewController.swift */,
+				895DCA5927C6359C00790F12 /* DetailViewController.swift */,
+				895DCA5B27C6374100790F12 /* TabBarController.swift */,
+				895DCA5F27C63A0000790F12 /* GenreViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -195,11 +207,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				89BDCB4227BA520800F8161F /* MovieList.swift in Sources */,
+				895DCA6027C63A0000790F12 /* GenreViewController.swift in Sources */,
+				895DCA5C27C6374100790F12 /* TabBarController.swift in Sources */,
 				89BDCB2F27BA448200F8161F /* MainViewController.swift in Sources */,
 				8981A6EC27C3AD890009882A /* CollectionHeaderView.swift in Sources */,
+				895DCA5A27C6359C00790F12 /* DetailViewController.swift in Sources */,
 				8981A6EA27C3A31B0009882A /* ImageCacheManager.swift in Sources */,
 				8981A6DE27C24AED0009882A /* CollectionViewCell.swift in Sources */,
 				8981A6E427C361160009882A /* NetworkManager.swift in Sources */,
+				895DCA5E27C6389000790F12 /* SearchViewController.swift in Sources */,
 				8981A6E627C368BD0009882A /* TargetAPI.swift in Sources */,
 				89BDCB2B27BA448200F8161F /* AppDelegate.swift in Sources */,
 				8981A6E827C377F80009882A /* NetworkError.swift in Sources */,
