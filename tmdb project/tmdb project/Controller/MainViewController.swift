@@ -31,19 +31,29 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.prefetchDataSource = self
+        setLayout()
         fetchData()
         // Do any additional setup after loading the view.
     }
 
+    private func setLayout() {
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        collectionView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.sectionHeadersPinToVisibleBounds = true
+        }
+    }
     private func updateURL(with queryItems: [URLQueryItem]) {
         targetAPI.settingQueryItems(queryItems: queryItems)
     }
 
-    func fetchData() {
+    private func fetchData() {
         updateURL(with: [targetAPI.generateQueryItem(item: .apiKey, value: "b8f03fc5e25bdeaaa478064e15410d68"),
                          targetAPI.generateQueryItem(item: .language, value: "ko_KR"),
                          targetAPI.generateQueryItem(item: .page, value: "\(page)")])

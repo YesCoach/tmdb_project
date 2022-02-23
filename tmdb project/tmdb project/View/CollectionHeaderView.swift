@@ -27,6 +27,7 @@ class CollectionHeaderView: UICollectionReusableView {
     }
 
     func setLayout() {
+        self.backgroundColor = .black
         self.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
