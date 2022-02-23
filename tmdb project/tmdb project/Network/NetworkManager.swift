@@ -14,7 +14,8 @@ struct NetworkManager {
         self.session = session
     }
 
-    func fetchData(url: URL, completion: @escaping(Result<Data, Error>) -> Void) {
+    func fetchData(url: URL?, completion: @escaping(Result<Data, Error>) -> Void) {
+        guard let url = url else { return }
         session.dataTask(with: url) { data, response, error in
             if let error = error {
                 return completion(.failure(error))
@@ -32,13 +33,13 @@ struct NetworkManager {
 
 //MARK: Image Fetching
 extension NetworkManager {
-    func downloadImage(from link: String, completion: @escaping (UIImage) -> Void) {
-        let cacheKey = NSString(string: link)
+    func downloadImage(from url: String, completion: @escaping (UIImage) -> Void) {
+        let cacheKey = NSString(string: url)
         if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
             completion(cachedImage)
         }
 
-        guard let url = URL(string: link) else { return }
+        guard let url = URL(string: url) else { return }
         session.dataTask(with: url) { data, _, _ in
             guard let data = data, let image = UIImage(data: data) else { return }
             ImageCacheManager.shared.setObject(image, forKey: cacheKey)

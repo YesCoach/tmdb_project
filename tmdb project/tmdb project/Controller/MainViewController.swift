@@ -7,16 +7,11 @@
 
 import UIKit
 
-struct MockData {
-    let image: UIImage?
-    let title: String
-    let popularity: Double
-}
-
 class MainViewController: UIViewController {
-    let networkManager = NetworkManager()
-    var data: [Movie] = []
-    let url = TargetAPI().targetURL()
+    private let networkManager = NetworkManager()
+    private var targetAPI = TargetAPI(of: .now_playing)
+    private var data: [Movie] = []
+    private var page: Int = 1
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
@@ -39,17 +34,26 @@ class MainViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.prefetchDataSource = self
         fetchData()
         // Do any additional setup after loading the view.
     }
-    
+
+    private func updateURL(with queryItems: [URLQueryItem]) {
+        targetAPI.settingQueryItems(queryItems: queryItems)
+    }
+
     func fetchData() {
-        networkManager.fetchData(url: url!) { result in
+        updateURL(with: [targetAPI.generateQueryItem(item: .apiKey, value: "b8f03fc5e25bdeaaa478064e15410d68"),
+                         targetAPI.generateQueryItem(item: .language, value: "ko_KR"),
+                         targetAPI.generateQueryItem(item: .page, value: "\(page)")])
+        networkManager.fetchData(url: targetAPI.targetURL()) { result in
             if case .success(let data) = result {
                 guard let movieList = try? JSONDecoder().decode(MovieList.self, from: data) else {
                     return
                 }
-                self.data = movieList.results
+                self.data.append(contentsOf: movieList.results)
+                self.page += 1
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -60,13 +64,12 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let data = data[indexPath.row]
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.cellID, for: indexPath) as? CollectionViewCell else {
             let cell = CollectionViewCell()
-            cell.setUpCell(movie: data)
+            cell.setUpCell(movie: data[indexPath.row])
             return cell
         }
-        cell.setUpCell(movie: data)
+        cell.setUpCell(movie: data[indexPath.row])
         return cell
     }
 
@@ -86,8 +89,16 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         }
         return headerView
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height * 0.07)
+    }
+}
+
+extension MainViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        if indexPaths.last?.row == data.count-1 {
+            fetchData()
+        }
     }
 }
