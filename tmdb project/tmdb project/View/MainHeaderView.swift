@@ -7,8 +7,8 @@
 
 import UIKit
 
-class CollectionHeaderView: UICollectionReusableView {
-    static let viewID = "headerViewID"
+class MainHeaderView: UICollectionReusableView {
+    static let viewID = "mainHeaderViewID"
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()

@@ -9,6 +9,7 @@ import UIKit
 
 struct NetworkManager {
     private let session: URLSession
+    let apiKey = "b8f03fc5e25bdeaaa478064e15410d68"
 
     init(session: URLSession = .shared) {
         self.session = session
@@ -21,6 +22,7 @@ struct NetworkManager {
                 return completion(.failure(error))
             }
             guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                print(response)
                 return completion(.failure(NetworkError.invalidResponse))
             }
             guard let data = data else {

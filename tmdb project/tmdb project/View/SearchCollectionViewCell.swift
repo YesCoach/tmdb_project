@@ -44,14 +44,14 @@ class SearchCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setUpLayout() {
         contentView.addSubview(thumbnailView)
         contentView.addSubview(titleLabel)
@@ -69,7 +69,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: thumbnailView.trailingAnchor, constant: 8).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
-        
+
         releaseDateLabel.translatesAutoresizingMaskIntoConstraints = false
         releaseDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
         releaseDateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true

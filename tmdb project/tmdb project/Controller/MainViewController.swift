@@ -9,7 +9,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     private let networkManager = NetworkManager()
-    private var targetAPI = TargetAPI(of: .now_playing)
+    private var targetAPI = TMDBAPI(of: TMDBAPI.MovieAPI.now_playing)
     private var data: [Movie] = []
     private var page: Int = 1
 
@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .black
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.cellID)
-        collectionView.register(CollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionHeaderView.viewID)
+        collectionView.register(MainHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainHeaderView.viewID)
         return collectionView
     }()
 
@@ -55,9 +55,9 @@ class MainViewController: UIViewController {
     }
 
     private func fetchData() {
-        updateURL(with: [targetAPI.generateQueryItem(item: .apiKey, value: "b8f03fc5e25bdeaaa478064e15410d68"),
-                         targetAPI.generateQueryItem(item: .language, value: "ko_KR"),
-                         targetAPI.generateQueryItem(item: .page, value: "\(page)")])
+        updateURL(with: [targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.apiKey, value: "b8f03fc5e25bdeaaa478064e15410d68"),
+                         targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.language, value: "ko_KR"),
+                         targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.page, value: "\(page)")])
         networkManager.fetchData(url: targetAPI.targetURL()) { result in
             if case .success(let data) = result {
                 guard let movieList = try? JSONDecoder().decode(MovieList.self, from: data) else {
@@ -91,8 +91,8 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionHeaderView.viewID, for: indexPath) as? CollectionHeaderView else {
-            return CollectionHeaderView()
+        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainHeaderView.viewID, for: indexPath) as? MainHeaderView else {
+            return MainHeaderView()
         }
         return headerView
     }
@@ -104,7 +104,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
 
 extension MainViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        if indexPaths.last?.row == data.count-1 {
+        if indexPaths.last?.row == data.count - 1 {
             fetchData()
         }
     }
