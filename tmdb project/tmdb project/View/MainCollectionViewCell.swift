@@ -54,15 +54,15 @@ class MainCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(popularityLabel)
 
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
-        thumbnailView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
-        thumbnailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
-        thumbnailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        thumbnailView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4).isActive = true
+        thumbnailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4).isActive = true
+        thumbnailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4).isActive = true
         thumbnailView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8).isActive = true
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: thumbnailView.bottomAnchor, constant: 8).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4).isActive = true
 
         popularityIcon.translatesAutoresizingMaskIntoConstraints = false
         popularityIcon.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4).isActive = true
@@ -73,7 +73,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         popularityLabel.translatesAutoresizingMaskIntoConstraints = false
         popularityLabel.topAnchor.constraint(equalTo: popularityIcon.topAnchor).isActive = true
         popularityLabel.leadingAnchor.constraint(equalTo: popularityIcon.trailingAnchor, constant: 4).isActive = true
-        popularityLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        popularityLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4).isActive = true
         popularityLabel.bottomAnchor.constraint(equalTo: popularityIcon.bottomAnchor).isActive = true
     }
 

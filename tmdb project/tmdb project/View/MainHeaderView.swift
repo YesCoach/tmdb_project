@@ -7,9 +7,7 @@
 
 import UIKit
 
-class MainHeaderView: UICollectionReusableView {
-    static let viewID = "mainHeaderViewID"
-
+class MainHeaderView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "현재 상영 중"
