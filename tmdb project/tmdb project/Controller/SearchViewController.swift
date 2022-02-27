@@ -12,6 +12,9 @@ class SearchViewController: UIViewController {
     private var targetAPI = TMDBAPI(of: TMDBAPI.SearchAPI.movie)
     private var data: [Movie] = []
     private var page: Int = 1
+    private var timer: Timer?
+    private var autoSearchWorkItem: DispatchWorkItem?
+    private var enterSearchWorkItem: DispatchWorkItem?
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
@@ -30,6 +33,7 @@ class SearchViewController: UIViewController {
         searchController.searchBar.searchTextField.placeholder = "Search"
         searchController.searchBar.barStyle = .black
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.automaticallyShowsCancelButton = false
         return searchController
     }()
 
@@ -46,6 +50,7 @@ class SearchViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
         searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = self
         navigationItem.titleView = searchHeaderView
         navigationItem.searchController = searchController
         setLayout()
@@ -77,7 +82,6 @@ class SearchViewController: UIViewController {
                          targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.language, value: "ko_KR"),
                          targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.page, value: "\(page)"),
                          targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.includeAdult, value: "false")])
-        print(targetAPI.targetURL())
         networkManager.fetchData(url: targetAPI.targetURL()) { result in
             if case .success(let data) = result {
                 guard let searchMovieList = try? JSONDecoder().decode(SearchMovieList.self, from: data) else {
@@ -90,6 +94,11 @@ class SearchViewController: UIViewController {
                 }
             }
         }
+    }
+
+    private func resetData() {
+        page = 1
+        data = []
     }
 }
 
@@ -118,12 +127,40 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching {
     }
 }
 
+
+// MARK: Search 관련 Delegate 구현부
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchController.searchBar.searchTextField.text else {
             return
         }
-        print(query)
-        fetchData(with: query)
+        autoSearchWorkItem?.cancel()
+        resetData()
+        let searchWorkItem = DispatchWorkItem {
+            self.fetchData(with: query)
+        }
+        enterSearchWorkItem = searchWorkItem
+        DispatchQueue(label: "serial").sync(execute: searchWorkItem)
+        debugPrint(#function)
+    }
+}
+
+extension SearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let query = searchController.searchBar.searchTextField.text else {
+            return
+        }
+        resetData()
+        timer?.invalidate()
+        let searchWorkItem = DispatchWorkItem {
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
+                if self.autoSearchWorkItem?.isCancelled == true {
+                    return
+                }
+                self.fetchData(with: query)
+            })
+        }
+        autoSearchWorkItem = searchWorkItem
+        DispatchQueue(label: "serial").sync(execute: searchWorkItem)
     }
 }
