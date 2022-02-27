@@ -29,7 +29,9 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewControllers = [mainViewController,searchViewController,genreViewController]
+        self.viewControllers = [mainViewController,
+                                UINavigationController(rootViewController: searchViewController),
+                                genreViewController]
         setUpTabBar()
     }
 

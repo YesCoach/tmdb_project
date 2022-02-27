@@ -28,6 +28,7 @@
 		89BDCB3727BA448400F8161F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89BDCB3527BA448400F8161F /* LaunchScreen.storyboard */; };
 		89BDCB4027BA4CBB00F8161F /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BDCB3F27BA4CBB00F8161F /* Movie.swift */; };
 		89BDCB4227BA520800F8161F /* MovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BDCB4127BA520800F8161F /* MovieList.swift */; };
+		89D12FD127CB95FD00C766E9 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D12FD027CB95FD00C766E9 /* SearchController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		89BDCB3827BA448400F8161F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89BDCB3F27BA4CBB00F8161F /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		89BDCB4127BA520800F8161F /* MovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieList.swift; sourceTree = "<group>"; };
+		89D12FD027CB95FD00C766E9 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				895DCA5927C6359C00790F12 /* DetailViewController.swift */,
 				895DCA5F27C63A0000790F12 /* GenreViewController.swift */,
 				895DCA5B27C6374100790F12 /* TabBarController.swift */,
+				89D12FD027CB95FD00C766E9 /* SearchController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -137,8 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				8981A6DD27C24AED0009882A /* MainCollectionViewCell.swift */,
-				8981A6EB27C3AD890009882A /* MainHeaderView.swift */,
 				895DCA6127C6465F00790F12 /* SearchCollectionViewCell.swift */,
+				8981A6EB27C3AD890009882A /* MainHeaderView.swift */,
 				895DCA6327C73C5900790F12 /* SearchHeaderView.swift */,
 			);
 			path = View;
@@ -217,6 +220,7 @@
 			files = (
 				89BDCB4227BA520800F8161F /* MovieList.swift in Sources */,
 				895DCA6027C63A0000790F12 /* GenreViewController.swift in Sources */,
+				89D12FD127CB95FD00C766E9 /* SearchController.swift in Sources */,
 				895DCA5C27C6374100790F12 /* TabBarController.swift in Sources */,
 				89BDCB2F27BA448200F8161F /* MainViewController.swift in Sources */,
 				8981A6EC27C3AD890009882A /* MainHeaderView.swift in Sources */,

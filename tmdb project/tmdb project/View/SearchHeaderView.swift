@@ -18,20 +18,11 @@ class SearchHeaderView: UICollectionReusableView {
         return label
     }()
 
-    private lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.backgroundColor = .black
-        searchBar.searchTextField.placeholder = "Search"
-        searchBar.searchTextField.textColor = .white
-        searchBar.searchTextField.backgroundColor = .gray
-        searchBar.clipsToBounds = true
-        return searchBar
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -39,15 +30,8 @@ class SearchHeaderView: UICollectionReusableView {
     func setLayout() {
         self.backgroundColor = .black
         self.addSubview(titleLabel)
-        self.addSubview(searchBar)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
-
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
-        searchBar.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-        searchBar.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
-        searchBar.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
     }
 }
