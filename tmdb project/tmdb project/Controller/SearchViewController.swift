@@ -37,6 +37,15 @@ class SearchViewController: UIViewController {
         return searchController
     }()
 
+    private lazy var searchNoResult: UILabel = {
+        let label = UILabel()
+        label.text = "검색결과 없음"
+        label.textColor = .white
+        return label
+    }()
+    
+    private var searchNoResultView: UILabel?
+
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -65,6 +74,11 @@ class SearchViewController: UIViewController {
 
     private func setLayout() {
         view.addSubview(collectionView)
+        view.addSubview(searchNoResult)
+        searchNoResult.translatesAutoresizingMaskIntoConstraints = false
+        searchNoResult.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        searchNoResult.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -91,6 +105,16 @@ class SearchViewController: UIViewController {
                 self.page += 1
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    if self.data.isEmpty {
+                        self.searchNoResult.text = "검색결과 없음"
+                    } else {
+                        self.searchNoResult.text = ""
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    self.searchNoResult.text = "검색결과 없음"
                 }
             }
         }
@@ -102,6 +126,7 @@ class SearchViewController: UIViewController {
     }
 }
 
+// MARK: CollectionViewDataSource 구현부
 extension SearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.cellID, for: indexPath) as? SearchCollectionViewCell else {
@@ -118,6 +143,7 @@ extension SearchViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: Paging 구현부
 extension SearchViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         if indexPaths.last?.row == data.count - 1 {
@@ -126,7 +152,6 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching {
         }
     }
 }
-
 
 // MARK: Search 관련 Delegate 구현부
 extension SearchViewController: UISearchBarDelegate {
@@ -147,9 +172,7 @@ extension SearchViewController: UISearchBarDelegate {
 
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let query = searchController.searchBar.searchTextField.text else {
-            return
-        }
+        guard let query = searchController.searchBar.searchTextField.text else { return }
         resetData()
         timer?.invalidate()
         let searchWorkItem = DispatchWorkItem {

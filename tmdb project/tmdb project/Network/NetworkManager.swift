@@ -19,6 +19,7 @@ struct NetworkManager {
         guard let url = url else { return }
         session.dataTask(with: url) { data, response, error in
             if let error = error {
+                print(error)
                 return completion(.failure(error))
             }
             guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
