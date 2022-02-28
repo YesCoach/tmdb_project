@@ -8,8 +8,8 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-    private lazy var mainViewController: MainViewController = {
-        let viewController = MainViewController()
+    private lazy var mainViewController: UINavigationController = {
+        let viewController = UINavigationController(rootViewController: MainViewController())
         viewController.tabBarItem.title = "홈"
         viewController.tabBarItem.image = UIImage(systemName: "1.circle.fill")
         viewController.changeTabBarItemFontColorWhite()

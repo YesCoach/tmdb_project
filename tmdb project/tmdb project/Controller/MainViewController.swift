@@ -37,20 +37,19 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
+        collectionView.delegate = self
         setLayout()
         fetchData()
+        navigationItem.titleView = headerView
+        navigationController?.navigationBar.barTintColor = .black
+        navigationController?.navigationBar.isTranslucent = false
         // Do any additional setup after loading the view.
     }
 
     private func setLayout() {
         view.addSubview(collectionView)
-        view.addSubview(headerView)
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        headerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        headerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
@@ -99,5 +98,13 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
         if indexPaths.last?.row == data.count - 1 {
             fetchData()
         }
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailViewController = DetailViewController()
+        detailViewController.movie = data[indexPath.row]
+        navigationController?.pushViewController(DetailViewController(), animated: false)
     }
 }

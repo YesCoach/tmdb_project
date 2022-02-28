@@ -28,8 +28,8 @@ class MainHeaderView: UIView {
         self.backgroundColor = .black
         self.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -8).isActive = true
     }
 }
