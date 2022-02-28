@@ -104,7 +104,7 @@ extension MainViewController: UICollectionViewDataSourcePrefetching {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailViewController = DetailViewController()
-        detailViewController.movie = data[indexPath.row]
-        navigationController?.pushViewController(DetailViewController(), animated: false)
+        detailViewController.movieID = data[indexPath.row].id
+        navigationController?.pushViewController(detailViewController, animated: false)
     }
 }

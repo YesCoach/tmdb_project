@@ -58,6 +58,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
+        collectionView.delegate = self
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         navigationItem.titleView = searchHeaderView
@@ -187,5 +188,13 @@ extension SearchViewController: UISearchResultsUpdating {
         }
         autoSearchWorkItem = searchWorkItem
         DispatchQueue(label: "serial").sync(execute: searchWorkItem)
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailViewController = DetailViewController()
+        detailViewController.movieID = data[indexPath.row].id
+        navigationController?.pushViewController(detailViewController, animated: false)
     }
 }

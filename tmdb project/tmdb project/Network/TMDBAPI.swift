@@ -35,6 +35,7 @@ extension TMDBAPI {
     enum MovieAPI: API {
         case now_playing
         case popular
+        case detail(Int)
         
         static let baseURL = "https://api.themoviedb.org/3/movie/"
 
@@ -44,6 +45,8 @@ extension TMDBAPI {
                 return Self.baseURL + "now_playing"
             case.popular:
                 return Self.baseURL + "popular"
+            case .detail(let id):
+                return Self.baseURL + "\(id)"
             }
         }
     }

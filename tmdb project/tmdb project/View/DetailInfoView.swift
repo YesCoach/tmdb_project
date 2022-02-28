@@ -15,36 +15,50 @@ class DetailInfoView: UIView {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
     private lazy var releaseLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
     private lazy var runtimeLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
     private lazy var popularityLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
     private lazy var genreLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.alignment = .leading
+        stackView.distribution = .fillEqually
+        stackView.axis = .vertical
         return stackView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUpLayout()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -53,20 +67,22 @@ class DetailInfoView: UIView {
     func setUpLayout() {
         self.addSubview(thumbnailView)
         self.addSubview(stackView)
-        stackView.addSubview(titleLabel)
-        stackView.addSubview(releaseLabel)
-        stackView.addSubview(runtimeLabel)
-        stackView.addSubview(popularityLabel)
-        stackView.addSubview(genreLabel)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(releaseLabel)
+        stackView.addArrangedSubview(runtimeLabel)
+        stackView.addArrangedSubview(popularityLabel)
+        stackView.addArrangedSubview(genreLabel)
 
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         thumbnailView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
         thumbnailView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8).isActive = true
+        thumbnailView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4).isActive = true
         thumbnailView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.9).isActive = true
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6).isActive = true
         stackView.leadingAnchor.constraint(equalTo: thumbnailView.trailingAnchor, constant: 8).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
         stackView.bottomAnchor.constraint(equalTo: thumbnailView.bottomAnchor).isActive = true
     }
 
