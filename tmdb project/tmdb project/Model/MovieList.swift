@@ -12,8 +12,3 @@ struct MovieList: Decodable {
     let page: Int
     let results: [Movie]
 }
-
-struct Dates: Decodable {
-    let maximum: String
-    let minimum: String
-}

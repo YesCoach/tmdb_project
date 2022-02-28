@@ -10,25 +10,26 @@ import UIKit
 class SearchViewController: UIViewController {
     private let networkManager = NetworkManager()
     private var targetAPI = TMDBAPI(of: TMDBAPI.SearchAPI.movie)
-    private var data: [Movie] = []
+    private(set) var data: [Movie] = []
     private var page: Int = 1
+    
     private var timer: Timer?
     private var autoSearchWorkItem: DispatchWorkItem?
     private var enterSearchWorkItem: DispatchWorkItem?
-
+    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .black
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.cellID)
         return collectionView
     }()
-
+    
     private lazy var searchHeaderView: SearchHeaderView = {
         let view = SearchHeaderView()
         return view
     }()
-
-    private lazy var searchController: UISearchController = {
+    
+    private(set) lazy var searchController: UISearchController = {
         let searchController = UISearchController()
         searchController.searchBar.searchTextField.placeholder = "Search"
         searchController.searchBar.barStyle = .black
@@ -36,16 +37,14 @@ class SearchViewController: UIViewController {
         searchController.automaticallyShowsCancelButton = false
         return searchController
     }()
-
-    private lazy var searchNoResult: UILabel = {
+    
+    private lazy var searchNoResultView: UILabel = {
         let label = UILabel()
         label.text = "검색결과 없음"
         label.textColor = .white
         return label
     }()
     
-    private var searchNoResultView: UILabel?
-
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -53,7 +52,7 @@ class SearchViewController: UIViewController {
         layout.scrollDirection = .vertical
         return layout
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
@@ -61,11 +60,8 @@ class SearchViewController: UIViewController {
         collectionView.delegate = self
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
-        navigationItem.titleView = searchHeaderView
-        navigationItem.searchController = searchController
-        navigationController?.navigationBar.barTintColor = .black
-        navigationController?.navigationBar.isTranslucent = false
         setLayout()
+        setNavigationBar()
         // Do any additional setup after loading the view.
     }
     
@@ -74,26 +70,33 @@ class SearchViewController: UIViewController {
         searchController.searchBar.searchTextField.rightView = UIImageView(image: UIImage(systemName: "mic"))
         searchController.searchBar.searchTextField.rightViewMode = .always
     }
-
+    
     private func setLayout() {
         view.addSubview(collectionView)
-        view.addSubview(searchNoResult)
-        searchNoResult.translatesAutoresizingMaskIntoConstraints = false
-        searchNoResult.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        searchNoResult.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-
+        view.addSubview(searchNoResultView)
+        searchNoResultView.translatesAutoresizingMaskIntoConstraints = false
+        searchNoResultView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        searchNoResultView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
     }
-
+    
+    private func setNavigationBar() {
+        navigationItem.titleView = searchHeaderView
+        navigationItem.searchController = searchController
+        navigationController?.navigationBar.barTintColor = .black
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
     private func updateURL(with queryItems: [URLQueryItem]) {
         targetAPI.settingQueryItems(queryItems: queryItems)
     }
-
-    private func fetchData(with searchQuery: String) {
+    
+    func fetchData(with searchQuery: String) {
         updateURL(with: [targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.apiKey, value: targetAPI.apiKey),
                          targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.query, value: searchQuery),
                          targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.language, value: "ko_KR"),
@@ -109,50 +112,23 @@ class SearchViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                     if self.data.isEmpty {
-                        self.searchNoResult.text = "검색결과 없음"
+                        self.searchNoResultView.text = "검색결과 없음"
                     } else {
-                        self.searchNoResult.text = ""
+                        self.searchNoResultView.text = ""
                     }
                 }
             } else {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
-                    self.searchNoResult.text = "검색결과 없음"
+                    self.searchNoResultView.text = "검색결과 없음"
                 }
             }
         }
     }
-
+    
     private func resetData() {
-        page = 1
-        data = []
-    }
-}
-
-// MARK: CollectionViewDataSource 구현부
-extension SearchViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.cellID, for: indexPath) as? SearchCollectionViewCell else {
-            let cell = SearchCollectionViewCell()
-            cell.setUpCell(movie: data[indexPath.row])
-            return cell
-        }
-        cell.setUpCell(movie: data[indexPath.row])
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.count
-    }
-}
-
-// MARK: Paging 구현부
-extension SearchViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        if indexPaths.last?.row == data.count - 1 {
-            guard let query = searchController.searchBar.searchTextField.text else { return }
-            fetchData(with: query)
-        }
+        self.page = 1
+        self.data = []
     }
 }
 
@@ -188,13 +164,5 @@ extension SearchViewController: UISearchResultsUpdating {
         }
         autoSearchWorkItem = searchWorkItem
         DispatchQueue(label: "serial").sync(execute: searchWorkItem)
-    }
-}
-
-extension SearchViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController()
-        detailViewController.movieID = data[indexPath.row].id
-        navigationController?.pushViewController(detailViewController, animated: false)
     }
 }

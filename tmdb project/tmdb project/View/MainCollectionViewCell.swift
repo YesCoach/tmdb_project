@@ -20,8 +20,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.settingCommonForm()
         return label
     }()
 
@@ -33,8 +32,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 
     private lazy var popularityLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.settingCommonForm()
         return label
     }()
 

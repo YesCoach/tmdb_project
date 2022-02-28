@@ -11,21 +11,21 @@ class TMDBAPI {
     let apiKey = "b8f03fc5e25bdeaaa478064e15410d68"
     private var components = URLComponents(string: "\(MovieAPI.now_playing.url)")
     private var urlQueryItems: [URLQueryItem]?
-
+    
     init(of api: API, with queryItems: [URLQueryItem] = []) {
         components = URLComponents(string: "\(api.url)")
         urlQueryItems = queryItems
     }
-
+    
     func targetURL() -> URL? {
         components?.queryItems = urlQueryItems
         return components?.url
     }
-
+    
     func generateQueryItem(item: Query, value: String) -> URLQueryItem {
         return URLQueryItem(name: "\(item.name)", value: value)
     }
-
+    
     func settingQueryItems(queryItems: [URLQueryItem]) {
         self.urlQueryItems = queryItems
     }
@@ -38,7 +38,7 @@ extension TMDBAPI {
         case detail(Int)
         
         static let baseURL = "https://api.themoviedb.org/3/movie/"
-
+        
         var url: String {
             switch self {
             case.now_playing:
@@ -54,9 +54,9 @@ extension TMDBAPI {
     enum SearchAPI: API {
         case movie
         case tv
-
+        
         static let baseURL = "https://api.themoviedb.org/3/search/"
-
+        
         var url: String {
             switch self {
             case .movie:
@@ -66,12 +66,12 @@ extension TMDBAPI {
             }
         }
     }
-
+    
     enum MovieQuery: Query {
         case apiKey
         case language
         case page
-
+        
         var name: String {
             switch self {
             case .apiKey:
@@ -83,14 +83,14 @@ extension TMDBAPI {
             }
         }
     }
-
+    
     enum SearchQuery: Query {
         case apiKey
         case query
         case language
         case page
         case includeAdult
-
+        
         var name: String {
             switch self {
             case .apiKey:

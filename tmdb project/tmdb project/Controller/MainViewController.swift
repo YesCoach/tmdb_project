@@ -10,21 +10,21 @@ import UIKit
 class MainViewController: UIViewController {
     private let networkManager = NetworkManager()
     private var targetAPI = TMDBAPI(of: TMDBAPI.MovieAPI.now_playing)
-    private var data: [Movie] = []
+    private(set) var data: [Movie] = []
     private var page: Int = 1
-
+    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .black
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.cellID)
         return collectionView
     }()
-
+    
     private lazy var headerView: UIView = {
         let view = MainHeaderView()
         return view
     }()
-
+    
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -32,20 +32,18 @@ class MainViewController: UIViewController {
         layout.scrollDirection = .vertical
         return layout
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
         collectionView.delegate = self
         setLayout()
+        setNavigationBar()
         fetchData()
-        navigationItem.titleView = headerView
-        navigationController?.navigationBar.barTintColor = .black
-        navigationController?.navigationBar.isTranslucent = false
         // Do any additional setup after loading the view.
     }
-
+    
     private func setLayout() {
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,11 +52,17 @@ class MainViewController: UIViewController {
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
     }
+    private func setNavigationBar() {
+        navigationItem.titleView = headerView
+        navigationController?.navigationBar.barTintColor = .black
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
     private func updateURL(with queryItems: [URLQueryItem]) {
         targetAPI.settingQueryItems(queryItems: queryItems)
     }
-
-    private func fetchData() {
+    
+    func fetchData() {
         updateURL(with: [targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.apiKey, value: "b8f03fc5e25bdeaaa478064e15410d68"),
                          targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.language, value: "ko_KR"),
                          targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.page, value: "\(page)")])
@@ -74,37 +78,5 @@ class MainViewController: UIViewController {
                 }
             }
         }
-    }
-}
-
-extension MainViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.cellID, for: indexPath) as? MainCollectionViewCell else {
-            let cell = MainCollectionViewCell()
-            cell.setUpCell(movie: data[indexPath.row])
-            return cell
-        }
-        cell.setUpCell(movie: data[indexPath.row])
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.count
-    }
-}
-
-extension MainViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        if indexPaths.last?.row == data.count - 1 {
-            fetchData()
-        }
-    }
-}
-
-extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController()
-        detailViewController.movieID = data[indexPath.row].id
-        navigationController?.pushViewController(detailViewController, animated: false)
     }
 }

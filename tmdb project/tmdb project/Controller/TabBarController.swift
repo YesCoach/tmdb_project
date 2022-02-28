@@ -29,7 +29,7 @@ class TabBarController: UITabBarController {
         viewController.changeTabBarItemFontColorWhite()
         return viewController
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewControllers = [mainViewController,
@@ -37,7 +37,7 @@ class TabBarController: UITabBarController {
                                 genreViewController]
         setUpTabBar()
     }
-
+    
     private func setUpTabBar() {
         tabBar.barTintColor = .black
         tabBar.isTranslucent = false

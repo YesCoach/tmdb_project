@@ -9,7 +9,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
     private let networkManager = NetworkManager()
-
+    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         return stackView
@@ -19,17 +19,17 @@ class DetailViewController: UIViewController {
         let detailInfoview = DetailInfoView()
         return detailInfoview
     }()
-
+    
     var movieID: Int?
     private var data: Movie?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLayout()
         fetchData()
     }
-
-    func setUpLayout() {
+    
+    private func setUpLayout() {
         view.addSubview(stackView)
         stackView.addArrangedSubview(detailInfoView)
         stackView.translatesAutoresizingMaskIntoConstraints = false

@@ -14,16 +14,14 @@ struct NetworkManager {
     init(session: URLSession = .shared) {
         self.session = session
     }
-
+    
     func fetchData(url: URL?, completion: @escaping(Result<Data, Error>) -> Void) {
         guard let url = url else { return }
         session.dataTask(with: url) { data, response, error in
             if let error = error {
-                print(error)
                 return completion(.failure(error))
             }
             guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                print(response)
                 return completion(.failure(NetworkError.invalidResponse))
             }
             guard let data = data else {
@@ -41,7 +39,6 @@ extension NetworkManager {
         if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
             completion(cachedImage)
         }
-
         guard let url = URL(string: url) else { return }
         session.dataTask(with: url) { data, _, _ in
             guard let data = data, let image = UIImage(data: data) else { return }
