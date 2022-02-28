@@ -62,6 +62,8 @@ class SearchViewController: UIViewController {
         searchController.searchResultsUpdater = self
         navigationItem.titleView = searchHeaderView
         navigationItem.searchController = searchController
+        navigationController?.navigationBar.barTintColor = .black
+        navigationController?.navigationBar.isTranslucent = false
         setLayout()
         // Do any additional setup after loading the view.
     }
