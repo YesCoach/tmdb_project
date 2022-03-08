@@ -11,10 +11,15 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.cellID, for: indexPath) as? MainCollectionViewCell else {
             let cell = MainCollectionViewCell()
-            cell.setUpCell(movie: data[indexPath.row])
             return cell
         }
-        cell.setUpCell(movie: data[indexPath.row])
+        cell.setUpCell(movie: data[indexPath.row]) { image in
+            DispatchQueue.main.async {
+                if indexPath == collectionView.indexPath(for: cell) {
+                    cell.thumbnailView.image = image
+                }
+            }
+        }
         return cell
     }
 

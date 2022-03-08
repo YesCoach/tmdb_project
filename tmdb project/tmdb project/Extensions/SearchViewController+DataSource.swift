@@ -11,18 +11,22 @@ extension SearchViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.cellID, for: indexPath) as? SearchCollectionViewCell else {
             let cell = SearchCollectionViewCell()
-            cell.setUpCell(movie: data[indexPath.row])
             return cell
         }
-        cell.setUpCell(movie: data[indexPath.row])
+        cell.setUpCell(movie: data[indexPath.row]) { image in
+            DispatchQueue.main.async {
+                if indexPath == collectionView.indexPath(for: cell) {
+                    cell.thumbnailView.image = image
+                }
+            }
+        }
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
     }
 }
-
 
 extension SearchViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {

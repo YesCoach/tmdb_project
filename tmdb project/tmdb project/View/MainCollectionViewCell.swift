@@ -10,7 +10,7 @@ import UIKit
 class MainCollectionViewCell: UICollectionViewCell {
     static let cellID = "MainCollectionViewCell"
 
-    private lazy var thumbnailView: UIImageView = {
+    lazy var thumbnailView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
@@ -75,14 +75,12 @@ class MainCollectionViewCell: UICollectionViewCell {
         popularityLabel.bottomAnchor.constraint(equalTo: popularityIcon.bottomAnchor).isActive = true
     }
 
-    func setUpCell(movie: Movie) {
-        movie.image { image in
-            DispatchQueue.main.async {
-            self.thumbnailView.image = image
-            }
-        }
+    func setUpCell(movie: Movie, completion: @escaping (UIImage) -> ()) {
         titleLabel.text = movie.title
         popularityLabel.text = String(movie.voteAverage)
+        movie.image { image in
+            completion(image)
+        }
     }
 
     override func prepareForReuse() {

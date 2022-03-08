@@ -46,7 +46,7 @@ class DetailViewController: UIViewController {
         let targetAPI = TMDBAPI(of: TMDBAPI.MovieAPI.detail(movieID))
         targetAPI.settingQueryItems(queryItems:
                                         [targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.apiKey, value: "b8f03fc5e25bdeaaa478064e15410d68"),
-                                         targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.language, value: "ko_KR")])
+                                         targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.language, value: "ko-KR")])
         
         networkManager.fetchData(url: targetAPI.targetURL()) { result in
             if case .success(let data) = result {

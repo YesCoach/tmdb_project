@@ -64,7 +64,7 @@ class MainViewController: UIViewController {
     
     func fetchData() {
         updateURL(with: [targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.apiKey, value: "b8f03fc5e25bdeaaa478064e15410d68"),
-                         targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.language, value: "ko_KR"),
+                         targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.language, value: "ko-KR"),
                          targetAPI.generateQueryItem(item: TMDBAPI.MovieQuery.page, value: "\(page)")])
         networkManager.fetchData(url: targetAPI.targetURL()) { result in
             if case .success(let data) = result {

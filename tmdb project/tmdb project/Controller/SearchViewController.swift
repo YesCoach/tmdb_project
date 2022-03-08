@@ -99,7 +99,7 @@ class SearchViewController: UIViewController {
     func fetchData(with searchQuery: String) {
         updateURL(with: [targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.apiKey, value: targetAPI.apiKey),
                          targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.query, value: searchQuery),
-                         targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.language, value: "ko_KR"),
+                         targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.language, value: "ko-KR"),
                          targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.page, value: "\(page)"),
                          targetAPI.generateQueryItem(item: TMDBAPI.SearchQuery.includeAdult, value: "false")])
         networkManager.fetchData(url: targetAPI.targetURL()) { result in
